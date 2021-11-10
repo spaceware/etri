@@ -1,14 +1,15 @@
 <template>
   <div class="row">
     <div id="aside">
-      <Search />
+      <Search v-on:weather_date="weather_date"/>
     </div>
     <div id="mapWrap">
 
-      <MapHeader v-on:setMapVisible="baseMapVisible"/>
+      <MapHeader v-on:setMapVisible="baseMapVisible" :weatherDate="this.weatherDate"/>
       <!--지도영역-->
 
       <OSM :aerial="this.aerial" :topo="this.topo" :osm="this.osm"/>
+<!--      <OSM :aerial="this.aerial" :topo="this.topo" :osm="this.osm" :map="" :weather=""/>-->
 
     </div>
   </div>
@@ -26,7 +27,8 @@ export default {
     return {
       aerial: true,
       topo: false,
-      osm: false
+      osm: false,
+      weatherDate: ""
     }
   },
   components: {
@@ -35,14 +37,14 @@ export default {
     Search
   },
   methods: {
+    weather_date(date){
+      this.weatherDate=date
+    },
     baseMapVisible(aerial, topo, osm){
       this.aerial = aerial;
       this.topo = topo;
       this.osm = osm;
-
-    }
-
-
+    },
   }
 }
 </script>

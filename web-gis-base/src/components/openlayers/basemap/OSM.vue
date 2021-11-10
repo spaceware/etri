@@ -7,9 +7,13 @@
 <script>
 import 'ol/ol.css'
 import { useStore } from 'vuex'
+// import TileLayer from "ol/layer/Tile";
+// import XYZ from "ol/source/XYZ";
 
 let store = null;
 let state = null;
+
+
 
 export default {
 
@@ -38,7 +42,6 @@ export default {
   watch: {
     osm(newVisible){
       if (newVisible){
-
         state.map.getLayers().forEach(function(layer) {
           if (layer.get('title') == "OSM"){
             layer.setVisible(newVisible);

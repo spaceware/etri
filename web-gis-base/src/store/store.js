@@ -113,9 +113,9 @@ const store = createStore({
     state: {
         center: center,
         map: map.createMap(),
-        vworldSatelliteLayer: map.vsatelLayer(),
-        vworldBaseLayer: map.vbaseLayer(),
-        osmLayer: map.osmLayer(),
+        // vworldSatelliteLayer: map.vsatelLayer(),
+        // vworldBaseLayer: map.vbaseLayer(),
+        // osmLayer: map.osmLayer(),
         measureLine : interaction.measureLine(),
         measurePoly : interaction.measurePoly(),
         tooltip : interaction.tooltip()
@@ -126,6 +126,5 @@ const store = createStore({
         },
 
     },
-
 });
 export default store

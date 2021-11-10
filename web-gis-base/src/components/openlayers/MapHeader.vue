@@ -1,6 +1,7 @@
 <template>
   <div id="snb">
     <MapControl/>
+    <WeatherLayer :weatherDate="weatherDate"/>
     <MapLayer v-on:setMapVisible="mapVisible"/>
 
   </div>
@@ -10,12 +11,15 @@
 
 import MapControl from "@/components/openlayers/control/MapControl";
 import MapLayer from "@/components/openlayers/control/MapLayer";
+import WeatherLayer from "@/components/openlayers/control/WeatherLayer";
 
 export default {
   name: "MapHeader",
+  props: ['weatherDate'],
   components: {
     MapControl,
-    MapLayer
+    MapLayer,
+    WeatherLayer
   },
   methods:{
     mapVisible(aerial, topo, osm){

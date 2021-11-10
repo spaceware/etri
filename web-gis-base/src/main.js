@@ -2,6 +2,9 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import store from './store/store'
 import axios from 'axios';
+
+// main.js
+
 //import router from './routes'
 import OpenLayers from 'openlayers'
 import mitt from "mitt"

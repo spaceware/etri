@@ -427,6 +427,9 @@ h4 {font-size:16pt; font-weight: 400; margin-bottom:10px;}
 .maplist2 ol li { border-top: 1px solid #e7e7e7; }
 .maplist2 ol li:first-child {border:none;}
 
+/*.map_layer_btn {position:center; top:9px; right:10px; z-index: 20;}*/
+.weather_layer_btn {position:absolute; top:9px; right:200px; z-index: 20;}
+
 .mt_analysis_wrap_01 {margin-bottom:5px; }
 .mt_analysis_wrap_02 {margin-bottom:40px; }
 .mt_analysis_wrap_03 {margin-bottom:40px; }

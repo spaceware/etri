@@ -5,8 +5,7 @@
       <h2 >Search</h2>
     </div>
     <SearchBox  />
-    <SearchList />
-
+    <SearchList v-on:weather_date="weather_date"/>
   </div>
 </template>
 
@@ -15,7 +14,12 @@ import SearchBox from "./SearchBox"
 import SearchList from "./SearchList"
 export default {
   name: "Search.Vue",
-  components: {SearchBox, SearchList}
+  components: {SearchBox, SearchList},
+  methods: {
+    weather_date(date){
+      this.$emit("weather_date",date)
+    }
+  }
 }
 </script>
 
