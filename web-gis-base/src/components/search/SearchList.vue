@@ -171,7 +171,7 @@ export default {
         }),
         extent: [12523442.714243278, 3130860.6785608195, 15654303.392804097, 6261721],
       });
-      store.state.map.addLayer(Layer)
+      // store.state.map.addLayer(Layer)
     },
     removeLayerList(data) {
       store.state.map.getLayers().forEach(layer => {

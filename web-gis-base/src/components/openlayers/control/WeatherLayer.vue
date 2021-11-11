@@ -127,7 +127,7 @@ export default {
         }),
         extent: [12523442.714243278, 3130860.6785608195, 15654303.392804097, 6261721],
       });
-      store.state.map.addLayer(Layer)
+      // store.state.map.addLayer(Layer)
     },
     addPrcpLayer(url) {
       let Layer = new TileLayer({
@@ -144,7 +144,7 @@ export default {
         }),
         extent: [12523442.714243278, 3130860.6785608195, 15654303.392804097, 6261721],
       });
-      store.state.map.addLayer(Layer)
+      // store.state.map.addLayer(Layer)
     },
     addWindLayer(url) {
       let Layer = new TileLayer({
@@ -161,7 +161,7 @@ export default {
         }),
         extent: [12523442.714243278, 3130860.6785608195, 15654303.392804097, 6261721],
       });
-      store.state.map.addLayer(Layer)
+      // store.state.map.addLayer(Layer)
     },
     removeTempLayer() {
       store.state.map.getLayers().forEach(layer => {
