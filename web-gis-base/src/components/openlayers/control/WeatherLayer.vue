@@ -14,7 +14,6 @@
         <input type="range" min="-144" max="144" step="1" v-model="value">
         <p style="font-size: 6px" v-html="displayWeatherDate">  </p>
         <button class="btn_comm_05" v-on:click="addWeatherLayer">Done</button>
-        <p style="font-size: 6px" v-if="checkSwitche" v-html="checkFalseMsg"></p>
       </div>
     </div>
   </div>
@@ -24,10 +23,12 @@
 import moment from "moment"
 import Toggle from '@vueform/toggle'
 import "@vueform/toggle/themes/default.css"
+import { useStore } from "vuex";
 import _ from "lodash"
 import TileLayer from "ol/layer/Tile";
 import XYZ from "ol/source/XYZ";
 
+let store = null;
 let tempLayerTitle = "Temp Layer";
 let prcpLayerTitle = "Prcp Layer";
 let windLayerTitle = "Wind Layer";
@@ -35,6 +36,9 @@ export default {
   name: "MapLayer",
   created() {
     this.moment=moment;
+  },
+  mounted() {
+    store = useStore()
   },
   components: {
     Toggle
@@ -48,8 +52,6 @@ export default {
       isActive: false,
       imgSrc: require("../../../assets/images/btnmap_off.png"),
       value: 0,
-      checkSwitche: false,
-      checkFalseMsg: "please, <br/> select weather layer"
     }
   },
   computed:{
@@ -95,15 +97,9 @@ export default {
         this.checkSwitche=false
       }
       if (!this.checkSwitche) {
-        if (!this.enable.temp) {
-          this.removeTempLayer()
-        },
-        if (!this.enable.prcp) {
-          this.removePrcpLayer()
-        },
-        if (!this.enable.wind) {
-          this.removeWindLayer()
-        }
+        this.removeTempLayer()
+        this.removePrcpLayer()
+        this.removeWindLayer()
 
         if (this.enable.temp) {
           this.addTempLayer()
@@ -180,7 +176,7 @@ export default {
           store.state.map.removeLayer(layer);
         }
       });
-    },.
+    },
     removeWindLayer() {
       store.state.map.getLayers().forEach(layer => {
         if (layer && layer.get("title") === windLayerTitle) {
