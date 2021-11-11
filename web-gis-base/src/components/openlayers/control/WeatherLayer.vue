@@ -29,9 +29,6 @@ import TileLayer from "ol/layer/Tile";
 import XYZ from "ol/source/XYZ";
 
 let store = null;
-let tempLayerTitle = "Temp Layer";
-let prcpLayerTitle = "Prcp Layer";
-let windLayerTitle = "Wind Layer";
 export default {
   name: "MapLayer",
   created() {
@@ -90,31 +87,28 @@ export default {
       this.enable.temp=false
     },
     addWeatherLayer(){
-      console.log(this.enable)
       if ((!this.enable.prop) && (!this.enable.temp) && (!this.enable.wind)) {
         this.checkSwitche=true
       } else {
         this.checkSwitche=false
       }
       if (!this.checkSwitche) {
-        this.removeTempLayer()
-        this.removePrcpLayer()
-        this.removeWindLayer()
+        this.removeLayer()
 
         if (this.enable.temp) {
-          this.addTempLayer()
+          this.addLayer()
         }
         if (this.enable.prcp){
-          this.addPrcpLayer()
+          this.addLayer()
         }
         if (this.enable.wind){
-          this.addWindLayer()
+          this.addLayer()
         }
       }
     },
-    addTempLayer(url) {
+    addLayer(url) {
       let Layer = new TileLayer({
-        title: tempLayerTitle,
+        title: "weatherLayer",
         visible: true,
         type: "base",
         source: new XYZ({
@@ -128,58 +122,11 @@ export default {
         extent: [12523442.714243278, 3130860.6785608195, 15654303.392804097, 6261721],
       });
       // store.state.map.addLayer(Layer)
+      console.log(Layer)
     },
-    addPrcpLayer(url) {
-      let Layer = new TileLayer({
-        title: prcpLayerTitle,
-        visible: true,
-        type: "base",
-        source: new XYZ({
-          url:
-              url+"/{z}/{y}/{x}.jpeg",
-          minZoom: 6,
-          maxZoom: 19,
-          attributions:
-              '<img src="https://map.vworld.kr/images/maps/logo_openplatform.png"/>',
-        }),
-        extent: [12523442.714243278, 3130860.6785608195, 15654303.392804097, 6261721],
-      });
-      // store.state.map.addLayer(Layer)
-    },
-    addWindLayer(url) {
-      let Layer = new TileLayer({
-        title: windLayerTitle,
-        visible: true,
-        type: "base",
-        source: new XYZ({
-          url:
-              url+"/{z}/{y}/{x}.jpeg",
-          minZoom: 6,
-          maxZoom: 19,
-          attributions:
-              '<img src="https://map.vworld.kr/images/maps/logo_openplatform.png"/>',
-        }),
-        extent: [12523442.714243278, 3130860.6785608195, 15654303.392804097, 6261721],
-      });
-      // store.state.map.addLayer(Layer)
-    },
-    removeTempLayer() {
+    removeLayer() {
       store.state.map.getLayers().forEach(layer => {
-        if (layer && layer.get("title") === tempLayerTitle) {
-          store.state.map.removeLayer(layer);
-        }
-      });
-    },
-    removePrcpLayer() {
-      store.state.map.getLayers().forEach(layer => {
-        if (layer && layer.get("title") === prcpLayerTitle) {
-          store.state.map.removeLayer(layer);
-        }
-      });
-    },
-    removeWindLayer() {
-      store.state.map.getLayers().forEach(layer => {
-        if (layer && layer.get("title") === windLayerTitle) {
+        if (layer && layer.get("title") === "weatherLayer") {
           store.state.map.removeLayer(layer);
         }
       });
