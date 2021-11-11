@@ -156,7 +156,7 @@ export default {
       console.log(data.satellite);
       this.layer_url=''+data.satellite+'/'+data.layer+'/'+data.date
     },
-    addTempLayer(url,data) {
+    addLayerList(url,data) {
       let Layer = new TileLayer({
         title: data.layer,
         visible: true,
@@ -173,7 +173,7 @@ export default {
       });
       store.state.map.addLayer(Layer)
     },
-    removeTempLayer(data) {
+    removeLayerList(data) {
       store.state.map.getLayers().forEach(layer => {
         if (layer && layer.get("title") === data.layer) {
           store.state.map.removeLayer(layer);
