@@ -612,12 +612,17 @@ thead, tbody, tfoot, tr, td, th {
     background-color: #707684; } /** 회색 큰버튼 *********/
 .btn_comm_02 {display: inline-block; width:84px; height:30px; line-height: 30px; border:1px solid #d8d8d8; border-radius: 3px; 
     background-color: #fff; text-align: center; color:#333; font-size: 11pt;} /** 작은 실행버튼 *********/
+
 .btn_search_01 {display: block; border-radius: 3px; text-align: center; height: 64px; line-height: 64px; color:#fff; background-color: #707684; width:100px;}
 
 .btn_comm_03 {display: inline-block; border-radius: 2px; text-align: center; height: 31px; line-height: 30px; color:#fff; padding:0 30px; background-color: #707684; }
 .btn_comm_03:hover {background-color: #606676; color:#fff;}
 .btn_comm_03:disabled {background-color:#99999c; color:#4f4f4f}
 .btn_comm_04 {height: 36px;}
+
+.btn_comm_05 {display: inline-block; border-radius: 2px; text-align: center; height: 25px; line-height: 24px; color:#fff; padding:0 30px; background-color: #707684; font-size: 12px; }
+.btn_comm_05:hover {background-color: #606676; color:#fff;}
+.btn_comm_05:disabled {background-color:#99999c; color:#4f4f4f}
 
 .smbtn_01:disabled { color:#d3d3d3 }
 .right_btn_area {text-align:right;}

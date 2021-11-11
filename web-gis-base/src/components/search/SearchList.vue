@@ -17,7 +17,7 @@
           <td><input type="checkbox" :id="'check_'+index" :value="d.satellite+'_'+d.layer" v-model="d.selected" @change="[selected($event),]"></td>
           <td>{{ d.satellite }}</td>
           <td>{{ d.layer }}</td>
-          <td>{{ d.date }}</td>
+          <td>{{ moment(d.date).format('YYYY-MM-DD') }}</td>
           <td><input type="radio" name="weather" @change="weather_date(d.date)"></td>
         </tr>
       </tbody>
@@ -41,11 +41,16 @@ import Pagination from 'v-pagination-3'
 import { useStore } from "vuex";
 import TileLayer from "ol/layer/Tile";
 import XYZ from "ol/source/XYZ";
+import moment from "moment";
+
 let store = null;
 export default {
   name: "SearchList",
   components:{
     Pagination
+  },
+  created() {
+    this.moment=moment;
   },
   mounted() {
     store = useStore()
@@ -151,7 +156,7 @@ export default {
       console.log(data.satellite);
       this.layer_url=''+data.satellite+'/'+data.layer+'/'+data.date
     },
-    addLayerList(url, data) {
+    addTempLayer(url,data) {
       let Layer = new TileLayer({
         title: data.layer,
         visible: true,
@@ -168,7 +173,7 @@ export default {
       });
       store.state.map.addLayer(Layer)
     },
-    removeLayerList(data) {
+    removeTempLayer(data) {
       store.state.map.getLayers().forEach(layer => {
         if (layer && layer.get("title") === data.layer) {
           store.state.map.removeLayer(layer);
