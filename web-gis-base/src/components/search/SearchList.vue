@@ -9,14 +9,14 @@
           <th>위성</th>
           <th>레이어명</th>
           <th>촬영시기</th>
-          <th>기상자료</th>
+          <th><img class="weatherImage" :src="weatherImage"/></th>
         </tr>
       </thead>
       <tbody v-if="result">
         <tr v-for="(d, index) in dataList" :key="index">
           <td><input type="checkbox" :id="'check_'+index" :value="d.satellite+'_'+d.layer" v-model="d.selected" @change="[selected($event),]"></td>
           <td>{{ d.satellite }}</td>
-          <td><a style="cursor:pointer" @click="getLayerDetails(d.layer)">{{ d.layer }}</a></td>
+          <td><a style="cursor:pointer" @click="getLayerDetails(d)">{{ d.layer }}</a></td>
           <td>{{ moment(d.date).format('YYYY-MM-DD') }}</td>
           <td><input type="radio" name="weather" @change="weather_date(d.date)"></td>
         </tr>
@@ -25,6 +25,16 @@
         <tr><td colspan="4" class="noresults">No Items</td> </tr>
       </tbody>
     </table>
+    <modal v-if="showModal" @close="showModal = false">
+      <template class="custom-modal-header" v-slot:header>
+        <h2><b>정보</b></h2>
+      </template>
+      <template class="custom-modal-body"  v-slot:body>
+        <h3> 레이어명 :  {{modalInformation.layer}} </h3>
+        <h3> 일시 : {{ modalInformation.date}} </h3>
+        <h3> 위성명 : {{modalInformation.sat }} </h3>
+      </template>
+    </modal>
     <Pagination
         v-model="currentPage"
         :records="total"
@@ -42,12 +52,16 @@ import { useStore } from "vuex";
 import TileLayer from "ol/layer/Tile";
 import XYZ from "ol/source/XYZ";
 import moment from "moment";
+import weatherImage from "@/assets/images/weather.png"
+
+import Modal from '@/components/Modal'
 
 let store = null;
 export default {
   name: "SearchList",
   components:{
-    Pagination
+    Pagination,
+    Modal
   },
   created() {
     this.moment=moment;
@@ -72,7 +86,14 @@ export default {
       dataList:[],
       layerList:[],
       selectedList:[],
-      weather_selected: ""
+      weather_selected: "",
+      showModal: false,
+      modalInformation: {
+        layer: "",
+        date:"",
+        sat:"",
+      },
+      weatherImage: weatherImage
     };
   },
   methods:{
@@ -191,18 +212,25 @@ export default {
         }
       }
     },
-    // getLayerDetails(layer){
-    //   let url = ''
-    //   let params = {};
-    //   params.layer = layer;
-    //   this.axios.post(url, params)
-    //       .then((res)=>{
-    //         // need Modal
-    //       })
-    //       .catch((err)=>{
-    //         console.log(err);
-    //       })
-    // }
+    getLayerDetails(data){
+      const vm=this;
+
+      vm.modalInformation.layer=data.layer
+      vm.modalInformation.sat=data.satellite
+      vm.modalInformation.date=data.date
+
+      vm.showModal=true
+      // let url = ''
+      // let params = {};
+      // params.layer = layer;
+      // this.axios.post(url, params)
+      //     .then((res)=>{
+      //       // need Modal
+      //     })
+      //     .catch((err)=>{
+      //       console.log(err);
+      //     })
+    }
   }
 
 
@@ -210,5 +238,18 @@ export default {
 </script>
 
 <style scoped lang="scss">
+
+.modal-body h3{
+  font-size: 0.9rem; text-align: left; line-height: 1.0rem
+}
+.modal-header h2 b{
+  margin-top: 0;
+  color: #42b983;
+  font-size: 1.1rem;
+}
+
+.weatherImage {
+  width: auto; height: 40px;
+}
 
 </style>
