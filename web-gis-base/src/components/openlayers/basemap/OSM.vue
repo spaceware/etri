@@ -56,6 +56,8 @@ export default {
         state.map.getLayers().forEach(function (layer) {
           if (layer.get('title') == "VWorld Satellite Map") {
             layer.setVisible(newVisible);
+          } else if(layer.get('title') == "dataLayer"){
+            layer.setVisible(newVisible);
           } else {
             layer.setVisible(!newVisible);
           }
