@@ -16,7 +16,7 @@
         <tr v-for="(d, index) in dataList" :key="index">
           <td><input type="checkbox" :id="'check_'+index" :value="d.satellite+'_'+d.layer" v-model="d.selected" @change="[selected($event),]"></td>
           <td>{{ d.satellite }}</td>
-          <td>{{ d.layer }}</td>
+          <td><a style="cursor:pointer" @click="getLayerDetails(d.layer)">{{ d.layer }}</a></td>
           <td>{{ moment(d.date).format('YYYY-MM-DD') }}</td>
           <td><input type="radio" name="weather" @change="weather_date(d.date)"></td>
         </tr>
@@ -191,6 +191,18 @@ export default {
         }
       }
     },
+    // getLayerDetails(layer){
+    //   let url = ''
+    //   let params = {};
+    //   params.layer = layer;
+    //   this.axios.post(url, params)
+    //       .then((res)=>{
+    //         // need Modal
+    //       })
+    //       .catch((err)=>{
+    //         console.log(err);
+    //       })
+    // }
   }
 
 
