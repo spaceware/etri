@@ -45,7 +45,7 @@ export default {
         state.map.getLayers().forEach(function(layer) {
           if (layer.get('title') == "OSM"){
             layer.setVisible(newVisible);
-          } else {
+          } else if(layer.get('title') == "VWorld Base Map" || layer.get('title') == 'VWorld Satellite Map'){
             layer.setVisible(!newVisible);
           }
         });
@@ -58,7 +58,7 @@ export default {
             layer.setVisible(newVisible);
           } else if(layer.get('title') == "dataLayer"){
             layer.setVisible(newVisible);
-          } else {
+          } else if(layer.get('title') == "VWorld Base Map" || layer.get('title') == 'OSM'){
             layer.setVisible(!newVisible);
           }
         });
@@ -69,7 +69,7 @@ export default {
         state.map.getLayers().forEach(function (layer) {
           if (layer.get('title') == "VWorld Base Map") {
             layer.setVisible(newVisible);
-          } else {
+          } else if(layer.get('title') == "VWorld Satellite Map" || layer.get('title') == 'OSM'){
             layer.setVisible(!newVisible);
           }
         });

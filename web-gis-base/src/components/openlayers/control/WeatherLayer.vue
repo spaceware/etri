@@ -56,13 +56,25 @@ export default {
       if (_.isEmpty(this.weatherDate)) {
         return "please, <br/> select disaster layer"
       }
-      let changeDate = moment(new Date(this.weatherDate)).add(this.value*10,"minutes").format("YYYY-MM-DD HH:mm:ss");
+      let minMinus = moment(new Date(this.weatherDate)).minutes()%10;
+      let changeDate = moment(new Date(this.weatherDate)).add(-minMinus + (this.value*10), "minutes").format("YYYY-MM-DD HH:mm")
+      // let changeDate = moment(new Date(this.weatherDate)).add(this.value*10,"minutes").format("YYYY-MM-DD HH:mm");
       let interval= this.value*10;
       if (this.value>0){
         interval = "+"+this.value*10
       }
       let intervalDate =  "<br/> ("+interval+" min)"
       return changeDate+intervalDate
+    },
+    layerDate(){
+      let minMinus = moment(new Date(this.weatherDate)).minutes()%10;
+      let changeDate = moment(new Date(this.weatherDate)).add(-minMinus + (this.value*10), "minutes").format("YYYYMMDD");
+      return changeDate;
+    },
+    layerDateTime(){
+      let minMinus = moment(new Date(this.weatherDate)).minutes()%10;
+      let changeDate = moment(new Date(this.weatherDate)).add(-minMinus + (this.value*10), "minutes").format("YYYYMMDDHHmm");
+      return changeDate;
     }
   },
   methods:{
@@ -87,45 +99,50 @@ export default {
       this.enable.temp=false
     },
     addWeatherLayer(){
-      if ((!this.enable.prop) && (!this.enable.temp) && (!this.enable.wind)) {
+      if ((!this.enable.prcp) && (!this.enable.temp) && (!this.enable.wind)) {
         this.checkSwitche=true
       } else {
         this.checkSwitche=false
       }
+      console.log(this.checkSwitche)
+      this.removeLayer()
       if (!this.checkSwitche) {
-        this.removeLayer()
 
         if (this.enable.temp) {
-          this.addLayer()
+          this.addLayer("TA")
         }
         if (this.enable.prcp){
-          this.addLayer()
+          this.addLayer("RN60M")
         }
         if (this.enable.wind){
-          this.addLayer()
+          this.addLayer("WIND10M")
         }
       }
     },
-    addLayer(url) {
+    addLayer(variable) {
+
+      let url = "http://192.168.1.77:8081/"+this.layerDate+"/AWSDB/AWSM_"+this.layerDateTime+"_"+variable
       let Layer = new TileLayer({
         title: "weatherLayer",
         visible: true,
         type: "base",
+        zIndex: 20,
         source: new XYZ({
           url:
-              url+"/{z}/{y}/{x}.jpeg",
-          minZoom: 6,
-          maxZoom: 19,
+              url+"/{z}/{x}/{y}.png",
+          minZoom: 1,
+          maxZoom: 7,
           attributions:
               '<img src="https://map.vworld.kr/images/maps/logo_openplatform.png"/>',
         }),
         extent: [12523442.714243278, 3130860.6785608195, 15654303.392804097, 6261721],
       });
-      // store.state.map.addLayer(Layer)
+      store.state.map.addLayer(Layer)
       console.log(Layer)
     },
     removeLayer() {
       store.state.map.getLayers().forEach(layer => {
+        console.log(layer)
         if (layer && layer.get("title") === "weatherLayer") {
           store.state.map.removeLayer(layer);
         }

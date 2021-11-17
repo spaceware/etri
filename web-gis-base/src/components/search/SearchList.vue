@@ -14,7 +14,7 @@
       </thead>
       <tbody v-if="result">
         <tr v-for="(d, index) in dataList" :key="index">
-          <td><input type="checkbox" :id="'check_'+index" :value="d.satellite+'_'+d.layer" v-model="d.selected" @change="[selected($event),]"></td>
+          <td><input type="checkbox" :id="'check_'+index" :value="d.satellite+'_'+d.layer" v-model="d.selected" @change="selected()"></td>
           <td>{{ d.satellite }}</td>
           <td><a style="cursor:pointer" @click="getLayerDetails(d)">{{ d.layer }}</a></td>
           <td>{{ moment(d.date).format('YYYY-MM-DD') }}</td>
@@ -159,14 +159,14 @@ export default {
           }
           if (!contained){
             this.layerList.push(this.dataList[i]);
-            // store.state.selectedList.push(this.layer_url);
+            // this.selectedList.push(this.layer_url);
             this.addLayerList(this.layer_url, this.dataList[i]);
           }
         } else{
           for(let j in this.layerList){
             if (this.layerList[j].layer == this.dataList[i].layer){
               this.layerList.splice(j,1);
-              // store.state.selectedList.splice(j, 1);
+              // this.selectedList.splice(j, 1);
               this.removeLayerList(this.dataList[i]);
             }
           }
@@ -175,25 +175,25 @@ export default {
     },
     getLayerPath(data) {
       console.log(data.satellite);
-      this.layer_url=''+data.satellite+'/'+data.layer+'/'+data.date
+      // this.layer_url=''+data.satellite+'/'+data.layer+'/'+data.date
+      this.layer_url = 'http://192.168.1.77:8081/20190405/K3A/K3_20190405042527_36717_09411281_L1O'
     },
     addLayerList(url,data) {
       let Layer = new TileLayer({
         title: data.layer,
         visible: true,
         type: "base",
+        zIndex:15,
         source: new XYZ({
           url:
-              url+"/{z}/{y}/{x}.jpeg",
+              url+"/{z}/{x}/{y}.png",
           minZoom: 6,
           maxZoom: 19,
-          attributions:
-              '<img src="https://map.vworld.kr/images/maps/logo_openplatform.png"/>',
         }),
         extent: [12523442.714243278, 3130860.6785608195, 15654303.392804097, 6261721],
       });
       console.log(Layer)
-      // store.state.map.addLayer(Layer)
+      store.state.map.addLayer(Layer)
     },
     removeLayerList(data) {
       store.state.map.getLayers().forEach(layer => {

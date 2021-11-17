@@ -15,6 +15,7 @@ const map = {
         let osmLayer = new TileLayer({
             title : 'OSM',
             source : new OSM(),
+            zIndex:6,
             visible: osm,
         });
         return osmLayer;
@@ -24,6 +25,7 @@ const map = {
             title : 'VWorld Base Map',
             visible : topo,
             type: 'base',
+            zIndex:6,
             source : new XYZ({
                 url:
                     "https://api.vworld.kr/req/wmts/1.0.0/CF1E6214-91ED-342A-BDB4-B54554CACF78/Base/{z}/{y}/{x}.png",
@@ -41,6 +43,7 @@ const map = {
             title: "VWorld Satellite Map",
             visible: aerial,
             type: "base",
+            zIndex:6,
             source: new XYZ({
                 url:
                     "https://api.vworld.kr/req/wmts/1.0.0/CF1E6214-91ED-342A-BDB4-B54554CACF78/Satellite/{z}/{y}/{x}.jpeg",

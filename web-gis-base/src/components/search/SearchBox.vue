@@ -62,7 +62,7 @@ export default {
   },
   methods:{
     getList() {
-      const url = "http://localhost:8080/api/test";
+      const url = "http://192.168.1.90:8080/api/test";
       let params = {};
       params.startDate = this.optionList.startDate;
       params.endDate = this.optionList.endDate;
