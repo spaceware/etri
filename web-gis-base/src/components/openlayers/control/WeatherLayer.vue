@@ -47,7 +47,7 @@ export default {
       prcp: false,
       wind: false},
       isActive: false,
-      imgSrc: require("../../../assets/images/btnmap_off.png"),
+      imgSrc: require("../../../assets/images/btnweather_off.png"),
       value: 0,
     }
   },
@@ -56,8 +56,10 @@ export default {
       if (_.isEmpty(this.weatherDate)) {
         return "please, <br/> select disaster layer"
       }
-      let minMinus = moment(new Date(this.weatherDate)).minutes()%10;
-      let changeDate = moment(new Date(this.weatherDate)).add(-minMinus + (this.value*10), "minutes").format("YYYY-MM-DD HH:mm")
+      let dateString = this.weatherDate.substr(0,4)+"-"+this.weatherDate.substr(4,2)+"-"+this.weatherDate.substr(6,2)
+      console.log(Date.parse(dateString))
+      let changeDate = moment(Date.parse(dateString)).add((this.value*10), "minutes").add(-9,"hours").format("YYYY-MM-DD HH:mm")
+      console.log(changeDate)
       // let changeDate = moment(new Date(this.weatherDate)).add(this.value*10,"minutes").format("YYYY-MM-DD HH:mm");
       let interval= this.value*10;
       if (this.value>0){
@@ -67,23 +69,29 @@ export default {
       return changeDate+intervalDate
     },
     layerDate(){
-      let minMinus = moment(new Date(this.weatherDate)).minutes()%10;
-      let changeDate = moment(new Date(this.weatherDate)).add(-minMinus + (this.value*10), "minutes").format("YYYYMMDD");
+      let dateString = this.weatherDate.substr(0,4)+"-"+this.weatherDate.substr(4,2)+"-"+this.weatherDate.substr(6,2)
+      let changeDate = moment(Date.parse(dateString)).add((this.value*10), "minutes").add(-9,"hours").format("YYYYMMDD");
       return changeDate;
     },
     layerDateTime(){
-      let minMinus = moment(new Date(this.weatherDate)).minutes()%10;
-      let changeDate = moment(new Date(this.weatherDate)).add(-minMinus + (this.value*10), "minutes").format("YYYYMMDDHHmm");
+      let dateString = this.weatherDate.substr(0,4)+"-"+this.weatherDate.substr(4,2)+"-"+this.weatherDate.substr(6,2)
+      let changeDate = moment(Date.parse(dateString)).add((this.value*10), "minutes").add(-9,"hours").format("YYYYMMDDHHmm");
       return changeDate;
+    }
+  },
+  watch:{
+    weatherDate: function(){
+      this.isActive = true;
+      this.imgSrc = require("../../../assets/images/btnweather_on.png")
     }
   },
   methods:{
     toggle(){
       this.isActive = !this.isActive;
       if (this.isActive){
-        this.imgSrc = require("../../../assets/images/btnmap_on.png")
+        this.imgSrc = require("../../../assets/images/btnweather_on.png")
       } else {
-        this.imgSrc = require("../../../assets/images/btnmap_off.png")
+        this.imgSrc = require("../../../assets/images/btnweather_off.png")
       }
     },
     tempSwitche() {
@@ -132,17 +140,13 @@ export default {
               url+"/{z}/{x}/{y}.png",
           minZoom: 1,
           maxZoom: 7,
-          attributions:
-              '<img src="https://map.vworld.kr/images/maps/logo_openplatform.png"/>',
         }),
         extent: [12523442.714243278, 3130860.6785608195, 15654303.392804097, 6261721],
       });
       store.state.map.addLayer(Layer)
-      console.log(Layer)
     },
     removeLayer() {
       store.state.map.getLayers().forEach(layer => {
-        console.log(layer)
         if (layer && layer.get("title") === "weatherLayer") {
           store.state.map.removeLayer(layer);
         }

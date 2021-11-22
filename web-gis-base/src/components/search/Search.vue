@@ -2,7 +2,7 @@
 
   <div id="nav">
     <div class="cont_tmenu">
-      <h2 >Search</h2>
+      <h2 style="font-size: 17pt" >고해상도 지구관측 위성영상 표출 시스템</h2>
     </div>
     <SearchBox  />
     <SearchList v-on:weather_date="weather_date"/>

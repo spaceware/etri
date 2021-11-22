@@ -14,11 +14,11 @@
       </thead>
       <tbody v-if="result">
         <tr v-for="(d, index) in dataList" :key="index">
-          <td><input type="checkbox" :id="'check_'+index" :value="d.satellite+'_'+d.layer" v-model="d.selected" @change="selected()"></td>
-          <td>{{ d.satellite }}</td>
-          <td><a style="cursor:pointer" @click="getLayerDetails(d)">{{ d.layer }}</a></td>
-          <td>{{ moment(d.date).format('YYYY-MM-DD') }}</td>
-          <td><input type="radio" name="weather" @change="weather_date(d.date)"></td>
+          <td><input type="checkbox" :id="'check_'+index" :value="d.satType+'_'+d.satLayername" v-model="d.selected" @change="selected()"></td>
+          <td>{{ d.satType }}</td>
+          <td><a style="cursor:pointer" @click="getLayerDetails(d)">{{ d.satLayername }}</a></td>
+          <td>{{ moment(d.satDate).format('YYYY-MM-DD') }}</td>
+          <td><input type="radio" name="weather" @change="weather_date(d.satDate)"></td>
         </tr>
       </tbody>
       <tbody v-else>
@@ -26,13 +26,10 @@
       </tbody>
     </table>
     <modal v-if="showModal" @close="showModal = false">
-      <template class="custom-modal-header" v-slot:header>
-        <h2><b>정보</b></h2>
-      </template>
       <template class="custom-modal-body"  v-slot:body>
-        <h3> 레이어명 :  {{modalInformation.layer}} </h3>
-        <h3> 일시 : {{ modalInformation.date}} </h3>
-        <h3> 위성명 : {{modalInformation.sat }} </h3>
+        <h3> <b>레이어명</b> :  {{modalInformation.layer}} </h3>
+        <h3> <b>일   시</b> : {{ modalInformation.date}} </h3>
+        <h3> <b>위 성 명</b> : {{modalInformation.sat }} </h3>
       </template>
     </modal>
     <Pagination
@@ -120,6 +117,7 @@ export default {
     },
     renderList(res){
       this.rawData = res.data;
+      console.log(this.rawData)
       this.total = this.rawData.length;
       this.currentPage = 1
       this.getList(this.currentPage);
@@ -152,7 +150,7 @@ export default {
           this.getLayerPath(this.dataList[i])
           let contained = false;
           for(let j in this.layerList){
-            if (this.layerList[j].layer == this.dataList[i].layer){
+            if (this.layerList[j].satLayername == this.dataList[i].satLayername){
               contained = true;
               break;
             }
@@ -164,7 +162,7 @@ export default {
           }
         } else{
           for(let j in this.layerList){
-            if (this.layerList[j].layer == this.dataList[i].layer){
+            if (this.layerList[j].satLayername == this.dataList[i].satLayername){
               this.layerList.splice(j,1);
               // this.selectedList.splice(j, 1);
               this.removeLayerList(this.dataList[i]);
@@ -174,13 +172,13 @@ export default {
       }
     },
     getLayerPath(data) {
-      console.log(data.satellite);
-      // this.layer_url=''+data.satellite+'/'+data.layer+'/'+data.date
-      this.layer_url = 'http://192.168.1.77:8081/20190405/K3A/K3_20190405042527_36717_09411281_L1O'
+      this.layer_url='http://192.168.1.77:8081/'+data.satDate+'/'+data.satType+'/'+data.satLayername
+
+      // this.layer_url = 'http://192.168.1.77:8081/20190405/K3A/K3_20190405042527_36717_09411281_L1O'
     },
     addLayerList(url,data) {
       let Layer = new TileLayer({
-        title: data.layer,
+        title: data.satLayername,
         visible: true,
         type: "base",
         zIndex:15,
@@ -192,12 +190,11 @@ export default {
         }),
         extent: [12523442.714243278, 3130860.6785608195, 15654303.392804097, 6261721],
       });
-      console.log(Layer)
       store.state.map.addLayer(Layer)
     },
     removeLayerList(data) {
       store.state.map.getLayers().forEach(layer => {
-        if (layer && layer.get("title") === data.layer) {
+        if (layer && layer.get("title") === data.satLayername) {
           store.state.map.removeLayer(layer);
         }
       });
@@ -205,7 +202,7 @@ export default {
     checkList(){
       for(let i in this.dataList){
         for (let j in this.layerList){
-          if (this.dataList[i].layer == this.layerList[j].layer){
+          if (this.dataList[i].satLayername == this.layerList[j].satLayername){
             this.dataList[i].selected = true;
             continue;
           }
@@ -215,9 +212,20 @@ export default {
     getLayerDetails(data){
       const vm=this;
 
-      vm.modalInformation.layer=data.layer
-      vm.modalInformation.sat=data.satellite
-      vm.modalInformation.date=data.date
+      this.axios.get("/api/modal/",{
+        params: {
+          layer : data.satLayername,
+          sat : data.satType,
+          date : data.satDate,
+        },
+      }).then((res)=>{
+        console.log(res.data)
+      }).catch((err)=>{
+        console.log(err)
+      })
+      vm.modalInformation.layer=data.satLayername
+      vm.modalInformation.sat=data.satType
+      vm.modalInformation.date=data.satDate
 
       vm.showModal=true
       // let url = ''

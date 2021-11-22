@@ -7,7 +7,7 @@ import OSM from "ol/source/OSM";
 import XYZ from "ol/source/XYZ";
 import Map from "ol/Map";
 import View from "ol/View";
-import TileWMS from "ol/source/TileWMS"
+// import TileWMS from "ol/source/TileWMS"
 
 const center = ol.proj.fromLonLat([127.5, 36]);
 const map = {
@@ -57,27 +57,27 @@ const map = {
         });
         return vworldSatelliteLayer;
     },
-    dataLayer(aerial){
-        return new TileLayer({
-            title: "dataLayer",
-            visible: aerial,
-            zIndex:8,
-            source: new TileWMS({
-                url : "http://api.vworld.kr/req/wms",
-                params: {
-                    "KEY":"CF1E6214-91ED-342A-BDB4-B54554CACF78",
-                    "LAYERS":"lt_c_usfsffb",
-                    "STYLES":"lt_c_usfsffb",
-                },
-                serverType: "geoserver",
-            })
-        })
-    },
+    // dataLayer(aerial){
+    //     return new TileLayer({
+    //         title: "dataLayer",
+    //         visible: aerial,
+    //         zIndex:10,
+    //         source: new TileWMS({
+    //             url : "http://api.vworld.kr/req/wms",
+    //             params: {
+    //                 "KEY":"CF1E6214-91ED-342A-BDB4-B54554CACF78",
+    //                 "LAYERS":"lt_c_usfsffb",
+    //                 "STYLES":"lt_c_usfsffb",
+    //             },
+    //             serverType: "geoserver",
+    //         })
+    //     })
+    // },
     createMap(target, aerial, topo, osm){
         return new Map({
             target: target,
             layers:[
-                this.dataLayer(aerial),
+                // this.dataLayer(aerial),
                 this.vbaseLayer(topo),
                 this.vsatelLayer(aerial),
                 this.osmLayer(osm),

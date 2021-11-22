@@ -6,7 +6,10 @@
 
           <div class="modal-header">
             <slot name="header">
-              default header
+              <h2>정보</h2>
+              <button class="modal-default-button" @click="$emit('close')">
+                X
+              </button>
             </slot>
           </div>
 
@@ -18,9 +21,7 @@
 
           <div class="modal-footer">
             <slot name="footer">
-              <button class="modal-default-button" @click="$emit('close')">
-                X
-              </button>
+
             </slot>
           </div>
         </div>
@@ -55,7 +56,7 @@ export default {
 
 .modal-container {
   width: 450px;
-  height: 300px;
+  height: 210px;
   margin: 0px auto;
   padding: 20px 30px;
   background-color: #fff;
@@ -65,6 +66,9 @@ export default {
   font-family: Helvetica, Arial, sans-serif;
 }
 
+.modal-header{
+  padding:0.5rem;
+}
 .modal-header h2{
   margin-top: 0;
   color: #42b983;

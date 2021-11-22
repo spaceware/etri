@@ -34,7 +34,7 @@
           <td>
             <label for="Sentinel"><input type="checkbox" id="Sentinel" value="SEN" v-model="optionList.satellite" checked>Sentinel</label>
             <label for="Landsat"><input type="checkbox" id="Landsat" value="LAN" v-model="optionList.satellite" checked>Landsat</label>
-            <label for="KOMPSAT"><input type="checkbox" id="KOMPSAT" value="KOM" v-model="optionList.satellite" checked>KOMPSAT</label>
+            <label for="KOMPSAT"><input type="checkbox" id="KOMPSAT" value="K3A" v-model="optionList.satellite" checked>KOMPSAT</label>
           </td>
         </tr>
       </tbody>
@@ -51,9 +51,9 @@ export default {
   data(){
     return {
       optionList:{
-        startDate: new Date(),
-        endDate: new Date(),
-        satellite: ["SEN", "LAN", "KOM"],
+        startDate: new Date(2019,3,3),
+        endDate: new Date(2019,3,20),
+        satellite: ["SEN", "LAN", "K3A"],
       }
     }
   },
@@ -61,15 +61,24 @@ export default {
     Datepicker
   },
   methods:{
+    getDateFormat(newDate){
+      const year = newDate.getFullYear();
+      const month = newDate.getMonth() + 1;
+      const date = newDate.getDate();
+      return `${year}${month >= 10 ? month : '0' + month}${date >= 10 ? date : '0' + date}`
+    },
     getList() {
-      const url = "http://192.168.1.90:8080/api/test";
-      let params = {};
-      params.startDate = this.optionList.startDate;
-      params.endDate = this.optionList.endDate;
-      params.satellite = this.optionList.satellite;
+      const url = "/api/search";
+      let formData = new FormData();
 
-      console.log("E", params);
-      this.axios.post(url)
+      let startDt = this.getDateFormat(this.optionList.startDate)
+      let endDt = this.getDateFormat(this.optionList.endDate)
+      formData.append("startDate", startDt);
+      formData.append("endDate",endDt);
+      formData.append("satellite",this.optionList.satellite);
+
+      console.log("E", formData);
+      this.axios.post(url, formData)
           .then((res)=>{
             this.emitter.emit("addData", res);
           })
