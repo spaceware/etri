@@ -57,9 +57,7 @@ export default {
         return "please, <br/> select disaster layer"
       }
       let dateString = this.weatherDate.substr(0,4)+"-"+this.weatherDate.substr(4,2)+"-"+this.weatherDate.substr(6,2)
-      console.log(Date.parse(dateString))
       let changeDate = moment(Date.parse(dateString)).add((this.value*10), "minutes").add(-9,"hours").format("YYYY-MM-DD HH:mm")
-      console.log(changeDate)
       // let changeDate = moment(new Date(this.weatherDate)).add(this.value*10,"minutes").format("YYYY-MM-DD HH:mm");
       let interval= this.value*10;
       if (this.value>0){
@@ -112,7 +110,6 @@ export default {
       } else {
         this.checkSwitche=false
       }
-      console.log(this.checkSwitche)
       this.removeLayer()
       if (!this.checkSwitche) {
 
@@ -129,7 +126,7 @@ export default {
     },
     addLayer(variable) {
 
-      let url = "http://192.168.1.77:8081/"+this.layerDate+"/AWSDB/AWSM_"+this.layerDateTime+"_"+variable
+      let url = this.layerDate+"/AWSDB/AWSM_"+this.layerDateTime+"_"+variable
       let Layer = new TileLayer({
         title: "weatherLayer",
         visible: true,

@@ -27,9 +27,17 @@
     </table>
     <modal v-if="showModal" @close="showModal = false">
       <template class="custom-modal-body"  v-slot:body>
-        <h3> <b>레이어명</b> :  {{modalInformation.layer}} </h3>
-        <h3> <b>일   시</b> : {{ modalInformation.date}} </h3>
-        <h3> <b>위 성 명</b> : {{modalInformation.sat }} </h3>
+        <h3> <b>File Name</b> :  {{modalInformation.file_name}} </h3>
+        <h3> <b>Width</b> : {{ modalInformation.width}} </h3>
+        <h3> <b>height</b> : {{modalInformation.height }} </h3>
+        <h3> <b>Origin Left</b> :  {{modalInformation.origin_left}} </h3>
+        <h3> <b>Origin Top</b> : {{ modalInformation.origin_top}} </h3>
+        <h3> <b>Resolution</b> : {{modalInformation.resolution }} </h3>
+        <h3> <b>Band Counts</b> :  {{modalInformation.band_counts}} </h3>
+        <h3> <b>Unit Type</b> : {{ modalInformation.unit_type}} </h3>
+        <h3> <b>No Data Value</b> : {{modalInformation.no_data_value }} </h3>
+        <h3> <b>Description</b> :  {{modalInformation.description}} </h3>
+        <h3> <b>Projection</b> : {{ modalInformation.projection}} </h3>
       </template>
     </modal>
     <Pagination
@@ -86,9 +94,17 @@ export default {
       weather_selected: "",
       showModal: false,
       modalInformation: {
-        layer: "",
-        date:"",
-        sat:"",
+        file_name: "",
+        width:"",
+        height:"",
+        origin_left:"",
+        origin_top:"",
+        resolution:"",
+        band_counts:"",
+        unit_type:"",
+        no_data_value:"",
+        description:"",
+        projection:"",
       },
       weatherImage: weatherImage
     };
@@ -117,7 +133,6 @@ export default {
     },
     renderList(res){
       this.rawData = res.data;
-      console.log(this.rawData)
       this.total = this.rawData.length;
       this.currentPage = 1
       this.getList(this.currentPage);
@@ -172,7 +187,7 @@ export default {
       }
     },
     getLayerPath(data) {
-      this.layer_url='http://192.168.1.77:8081/'+data.satDate+'/'+data.satType+'/'+data.satLayername
+      this.layer_url=data.satDate+'/'+data.satType+'/'+data.satLayername
 
       // this.layer_url = 'http://192.168.1.77:8081/20190405/K3A/K3_20190405042527_36717_09411281_L1O'
     },
@@ -211,8 +226,7 @@ export default {
     },
     getLayerDetails(data){
       const vm=this;
-
-      this.axios.get("/api/modal/",{
+      this.axios.get("/api/satelliteInfo/",{
         params: {
           layer : data.satLayername,
           sat : data.satType,
@@ -220,12 +234,22 @@ export default {
         },
       }).then((res)=>{
         console.log(res.data)
+        vm.modalInformation.file_name=res.data["file name"]
+        vm.modalInformation.width=res.data.width
+        vm.modalInformation.height=res.data.height
+        vm.modalInformation.origin_left=res.data.origin_left
+        vm.modalInformation.origin_top=res.data.origin_top
+        vm.modalInformation.resolution=res.data.resolution
+        vm.modalInformation.band_counts=res.data["band counts"]
+        vm.modalInformation.unit_type=res.data["unit type"]
+        vm.modalInformation.no_data_value=res.data["no data value"]
+        vm.modalInformation.description=res.data.description
+        vm.modalInformation.projection=res.data.projection
       }).catch((err)=>{
         console.log(err)
       })
-      vm.modalInformation.layer=data.satLayername
-      vm.modalInformation.sat=data.satType
-      vm.modalInformation.date=data.satDate
+
+
 
       vm.showModal=true
       // let url = ''

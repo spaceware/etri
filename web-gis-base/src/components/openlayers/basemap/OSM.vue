@@ -21,7 +21,7 @@ export default {
   props: ['aerial', "topo", "osm"],
   mounted(){
     store = useStore()
-    let value = {ref: this.$refs["map-root"],aerial: this.aerial, topo: this.topo,osm: this.osm}
+    let value = {ref: this.$refs["map-root"],aerial: this.aerial, topo: this.topo,osm: this.osm, vworldKey: this.vworldKey}
     store.commit("setMapTarget", value)
     state = store.state;
     state.map.addInteraction(state.measureLine)

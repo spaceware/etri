@@ -65,7 +65,7 @@ export default {
       const year = newDate.getFullYear();
       const month = newDate.getMonth() + 1;
       const date = newDate.getDate();
-      return `${year}${month >= 10 ? month : '0' + month}${date >= 10 ? date : '0' + date}`
+      return `${year}-${month >= 10 ? month : '0' + month}-${date >= 10 ? date : '0' + date}`
     },
     getList() {
       const url = "/api/search";
@@ -77,7 +77,6 @@ export default {
       formData.append("endDate",endDt);
       formData.append("satellite",this.optionList.satellite);
 
-      console.log("E", formData);
       this.axios.post(url, formData)
           .then((res)=>{
             this.emitter.emit("addData", res);

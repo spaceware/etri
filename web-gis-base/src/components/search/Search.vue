@@ -17,7 +17,6 @@ export default {
   components: {SearchBox, SearchList},
   methods: {
     weather_date(date){
-      console.log(date)
       this.$emit("weather_date",date)
     }
   }

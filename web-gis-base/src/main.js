@@ -15,6 +15,10 @@ const emitter = mitt()
 const app = createApp(App)
 app.config.globalProperties.axios = axios;
 app.config.globalProperties.emitter = emitter;
+
+// V World Key Property
+app.config.globalProperties.vworldKey = "CF1E6214-91ED-342A-BDB4-B54554CACF78";
+
 app.use(store);
 app.use(OpenLayers)
 app.mount('#app')

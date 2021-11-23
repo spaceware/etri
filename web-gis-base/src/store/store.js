@@ -20,7 +20,7 @@ const map = {
         });
         return osmLayer;
     },
-    vbaseLayer(topo){
+    vbaseLayer(topo, vworldKey){
         let vworldBaseLayer = new TileLayer({
             title : 'VWorld Base Map',
             visible : topo,
@@ -28,7 +28,7 @@ const map = {
             zIndex:6,
             source : new XYZ({
                 url:
-                    "https://api.vworld.kr/req/wmts/1.0.0/CF1E6214-91ED-342A-BDB4-B54554CACF78/Base/{z}/{y}/{x}.png",
+                    "https://api.vworld.kr/req/wmts/1.0.0/"+vworldKey+"/Base/{z}/{y}/{x}.png",
                 minZoom: 6,
                 maxZoom: 19,
                 attributions:
@@ -38,7 +38,7 @@ const map = {
         });
         return vworldBaseLayer
     },
-    vsatelLayer(aerial){
+    vsatelLayer(aerial, vworldKey){
         let vworldSatelliteLayer = new TileLayer({
             title: "VWorld Satellite Map",
             visible: aerial,
@@ -46,7 +46,7 @@ const map = {
             zIndex:6,
             source: new XYZ({
                 url:
-                    "https://api.vworld.kr/req/wmts/1.0.0/CF1E6214-91ED-342A-BDB4-B54554CACF78/Satellite/{z}/{y}/{x}.jpeg",
+                    "https://api.vworld.kr/req/wmts/1.0.0/"+vworldKey+"/Satellite/{z}/{y}/{x}.jpeg",
                 minZoom: 6,
                 maxZoom: 19,
                 attributions:
@@ -57,7 +57,7 @@ const map = {
         });
         return vworldSatelliteLayer;
     },
-    // dataLayer(aerial){
+    // dataLayer(aerial, vworldKey){
     //     return new TileLayer({
     //         title: "dataLayer",
     //         visible: aerial,
@@ -65,7 +65,7 @@ const map = {
     //         source: new TileWMS({
     //             url : "http://api.vworld.kr/req/wms",
     //             params: {
-    //                 "KEY":"CF1E6214-91ED-342A-BDB4-B54554CACF78",
+    //                 "KEY":vworldKey,
     //                 "LAYERS":"lt_c_usfsffb",
     //                 "STYLES":"lt_c_usfsffb",
     //             },
@@ -73,13 +73,13 @@ const map = {
     //         })
     //     })
     // },
-    createMap(target, aerial, topo, osm){
+    createMap(target, aerial, topo, osm, vworldKey){
         return new Map({
             target: target,
             layers:[
                 // this.dataLayer(aerial),
-                this.vbaseLayer(topo),
-                this.vsatelLayer(aerial),
+                this.vbaseLayer(topo, vworldKey),
+                this.vsatelLayer(aerial, vworldKey),
                 this.osmLayer(osm),
             ],
             view: new View({
@@ -143,7 +143,7 @@ const store = createStore({
     },
     mutations: {
         setMapTarget(state, value) {
-            state.map = map.createMap(value.ref, value.aerial, value.topo, value.osm)
+            state.map = map.createMap(value.ref, value.aerial, value.topo, value.osm, value.vworldKey)
         },
 
     },
