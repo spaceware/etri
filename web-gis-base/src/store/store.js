@@ -7,7 +7,6 @@ import OSM from "ol/source/OSM";
 import XYZ from "ol/source/XYZ";
 import Map from "ol/Map";
 import View from "ol/View";
-// import TileWMS from "ol/source/TileWMS"
 
 const center = ol.proj.fromLonLat([127.5, 36]);
 const map = {
@@ -57,22 +56,6 @@ const map = {
         });
         return vworldSatelliteLayer;
     },
-    // dataLayer(aerial, vworldKey){
-    //     return new TileLayer({
-    //         title: "dataLayer",
-    //         visible: aerial,
-    //         zIndex:10,
-    //         source: new TileWMS({
-    //             url : "http://api.vworld.kr/req/wms",
-    //             params: {
-    //                 "KEY":vworldKey,
-    //                 "LAYERS":"lt_c_usfsffb",
-    //                 "STYLES":"lt_c_usfsffb",
-    //             },
-    //             serverType: "geoserver",
-    //         })
-    //     })
-    // },
     createMap(target, vworldKey){
         return new Map({
             target: target,
@@ -106,37 +89,12 @@ const interaction = {
         let tooltip = new Tooltip();
         return tooltip;
     }
-    // selectPoly(){
-    //     let sp = new Draw({type: "Polygon"});
-    //     sp.setActive(false);
-    //     return sp;
-    // }
 }
-// export const store = new Vuex.Store({
-//     map: {
-//         map: map.createMap(),
-//         vworldSatelliteLayer: map.vsatelLayer(),
-//         vworldBaseLayer: map.vbaseLayer(),
-//         osmLayer: map.osmLayer(),
-//     }
-// })
-
-// export default createStore({
-//     state: {
-//         map: map.createMap(),
-//         vworldSatelliteLayer: map.vsatelLayer(),
-//         vworldBaseLayer: map.vbaseLayer(),
-//         osmLayer: map.osmLayer(),
-//     }
-// })
 
 const store = createStore({
     state: {
         center: center,
         map: map.createMap(),
-        // vworldSatelliteLayer: map.vsatelLayer(),
-        // vworldBaseLayer: map.vbaseLayer(),
-        // osmLayer: map.osmLayer(),
         measureLine : interaction.measureLine(),
         measurePoly : interaction.measurePoly(),
         tooltip : interaction.tooltip()

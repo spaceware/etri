@@ -6,10 +6,8 @@
     <div id="mapWrap">
 
       <MapHeader v-on:setMapVisible="baseMapVisible" :weatherDate="this.weatherDate"/>
-      <!--지도영역-->
 
       <OSM :aerial="this.aerial" :topo="this.topo" :osm="this.osm"/>
-<!--      <OSM :aerial="this.aerial" :topo="this.topo" :osm="this.osm" :map="" :weather=""/>-->
 
     </div>
   </div>

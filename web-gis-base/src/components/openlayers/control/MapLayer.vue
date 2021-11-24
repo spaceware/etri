@@ -48,8 +48,6 @@ export default {
 
 ul, li{margin:0; padding:0;}
 ul {list-style:none;}
-/*.maplist {position:fixed; z-index: 20;  width: 138px; background-color: #ffffff;*/
-/*  border: 1px solid rgba(101, 104, 111, 0.3); padding: 15px;}*/
 .maplist ul li {font-size: 11pt; line-height: 150%; color:#333;}
 
 

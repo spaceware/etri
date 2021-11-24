@@ -1,6 +1,5 @@
 package sw.etri.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
@@ -8,20 +7,15 @@ import lombok.extern.slf4j.Slf4j;
 import net.lingala.zip4j.ZipFile;
 import net.lingala.zip4j.exception.ZipException;
 import net.lingala.zip4j.model.FileHeader;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StopWatch;
 import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.*;
-import sw.etri.dto.ImageSearchInfo;
-import sw.etri.dto.SatelliteInfo;
-import sw.etri.service.SearchImage;
 import sw.etri.service.data.ZipFileCacheKey;
 import sw.etri.service.pic.PngMaker;
 
@@ -29,7 +23,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.nio.file.Path;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
@@ -42,8 +35,6 @@ public class TileServiceController {
     @Value("${data.tile.root}")
     private Path dataRoot;
 
-    @Autowired
-    private SearchImage fileSearchImage;
     private byte[] noDataImage;
 
     LoadingCache<String, ZipFile> zipFileCache = CacheBuilder.newBuilder()
@@ -88,27 +79,12 @@ public class TileServiceController {
 
 
         noDataImage = PngMaker.makeRGBImage(noImage, 256, 256, noData);
-//		Encoder encoder = PictureEncoderType.PNG_RGBA.getEncoder(0);
-//		TileWriter writer = StreamWriterType.Zip64.getWriter(ofname, props);
-//		ImageDataType type = ImageDataType.BYTE_RGB;
-//
-//		byte[] pngArrays;
-//
-//		pngArrays = encoder.doEncode(tgtChunkImage, imageWidth, imageHeight);
-//		FileOutputStream fos = new FileOutputStream("D:/work/DATA/KARI/"+startLevel+"-"+row+"-"+col+".png");
-//		fos.write(pngArrays);
-//		fos.flush();
-//		fos.close();
 
     }
     private ZipFile getZipFile(String layerName) throws FileNotFoundException {
 
         String zipName = layerName + ".zip";
         Path layerPath = dataRoot.resolve(zipName);
-//		logger.debug("layerPath {}", layerPath);
-//		String dir = "D:/work/DATA/KARI/";
-//		String fname = dir + layerName + ".zip";
-//		File file = new File(fname);
         File file = layerPath.toFile();
         if(file.exists()) {
 
@@ -119,16 +95,6 @@ public class TileServiceController {
         }
     }
 
-//    @PostConstruct
-//    public void postConstruct() {
-//        try {
-//
-////            loadBigMosaicImages();
-////            makeNodataTile();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
 
 
 

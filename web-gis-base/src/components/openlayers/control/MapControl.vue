@@ -6,7 +6,6 @@
 </template>
 
 <script>
-// import ol from "openlayers"
 import { useStore } from 'vuex'
 
 let store = null;
@@ -29,24 +28,6 @@ export default {
           store.state.measureLine.setActive(false);
           store.state.measurePoly.setActive(false);
           break;
-        case "dist":
-          store.state.measureLine.setActive(true);
-          store.state.measurePoly.setActive(false);
-          break;
-        case "area":
-          store.state.measureLine.setActive(false);
-          store.state.measurePoly.setActive(true);
-          break;
-        case "info":
-          store.state.measureLine.setActive(false);
-          store.state.measurePoly.setActive(false);
-          console.log("Not Implemented Control")
-          break;
-        case "select":
-          store.state.measureLine.setActive(false);
-          store.state.measurePoly.setActive(false);
-          console.log("Not Implemented Control")
-          break;
         default:
           throw new Error("NotImplemented Control: " + val);
       }
@@ -61,5 +42,4 @@ export default {
 .map_control .map_control_btn:last-child {border:none;}
 .ico_all {background: url(../../../assets/images/ico_all.png) no-repeat; }
 .ico_move {background: url(../../../assets/images/ico_move.png) no-repeat; }
-.ico_info {background: url(../../../assets/images/ico_info.png) no-repeat; }
 </style>

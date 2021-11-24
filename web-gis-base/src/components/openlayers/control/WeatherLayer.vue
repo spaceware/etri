@@ -7,9 +7,6 @@
           <li style="margin-bottom: 0.1rem"><Toggle class="custom_toggle" v-model="enable.temp" @change="tempSwitche()"></Toggle>Temperature</li>
           <li style="margin-bottom: 0.1rem"><Toggle class="custom_toggle" v-model="enable.prcp" @change="prcpSwitche()"></Toggle>Precipitation</li>
           <li style="margin-bottom: 0.1rem"><Toggle class="custom_toggle" v-model="enable.wind" @change="windSwitche()"></Toggle>Wind</li>
-<!--          <li><label><input type="radio" name="weather" value="Temp" :checked="temp" />Temperature</label></li>-->
-<!--          <li><label><input type="radio" name="weather" value="Wind" :checked="wind" />Precipitation</label></li>-->
-<!--          <li><label><input type="radio" name="weather" value="Prcp" :checked="prcp" />Wind</label></li>-->
         </ul>
         <input type="range" min="-144" max="144" step="1" v-model="value">
         <p style="font-size: 6px" v-html="displayWeatherDate">  </p>
@@ -58,7 +55,6 @@ export default {
       }
       let dateString = this.weatherDate.substr(0,4)+"-"+this.weatherDate.substr(4,2)+"-"+this.weatherDate.substr(6,2)
       let changeDate = moment(Date.parse(dateString)).add((this.value*10), "minutes").add(-9,"hours").format("YYYY-MM-DD HH:mm")
-      // let changeDate = moment(new Date(this.weatherDate)).add(this.value*10,"minutes").format("YYYY-MM-DD HH:mm");
       let interval= this.value*10;
       if (this.value>0){
         interval = "+"+this.value*10
@@ -162,8 +158,6 @@ export default {
 
 ul, li{margin:0; padding:0;}
 ul {list-style:none;}
-/*.maplist {position:fixed; z-index: 20;  width: 138px; background-color: #ffffff;*/
-/*  border: 1px solid rgba(101, 104, 111, 0.3); padding: 15px;}*/
 .maplist ul li {font-size: 11pt; line-height: 150%; color:#333;}
 
 

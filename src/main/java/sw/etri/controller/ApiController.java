@@ -1,6 +1,7 @@
 package sw.etri.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,14 +21,16 @@ import java.util.*;
 
 @Slf4j
 @Controller
+@RequiredArgsConstructor
 @RequestMapping("/api")
 public class ApiController {
+
     @Value("${data.tile.root}")
     private Path dataRoot;
     @Value("${basemap.key}")
     private String key;
-    @Autowired
-    private SearchImage fileSearchImage;
+
+    private final SearchImage fileSearchImage;
 
     @GetMapping("/getKey")
     public ResponseEntity getKey(){
@@ -36,7 +39,6 @@ public class ApiController {
 
     @GetMapping("/satelliteInfo")
     public ResponseEntity modal(ModalDto dto) throws URISyntaxException {
-
 
         ResponseEntity response = getSatelliteInfo(dto.getDate(), dto.getSat(), dto.getLayer());
         return new ResponseEntity(response.getBody(), HttpStatus.OK);
@@ -49,14 +51,21 @@ public class ApiController {
         info.setSdate(java.sql.Date.valueOf(LocalDate.parse(dto.getStartDate())));
         info.setEdate(java.sql.Date.valueOf(LocalDate.parse(dto.getEndDate())));
         info.setSatelliteList(dto.getSatellite());
-        return search(info);
+        try {
+            List<sw.etri.dto.SatelliteInfo> results = fileSearchImage.search(info);
+
+            return new ResponseEntity(results, HttpStatus.OK);
+        } catch (Exception ex) {
+
+            log.error(ex.getMessage());
+            ResponseEntity<List<sw.etri.dto.SatelliteInfo>> infoResponseEntity = new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+            return infoResponseEntity;
+        }
     }
 
-    public ResponseEntity<String> getSatelliteInfo(String yyyymmdd,
-                                                   String type,
-                                                   String layername) {
-        try {
+    public ResponseEntity<String> getSatelliteInfo(String yyyymmdd, String type, String layername) {
 
+        try {
             String fname = String.format("%s/%s/%s.JSON", yyyymmdd, type, layername);
             Path jsonPath = dataRoot.resolve(fname);
             File jsonFile = jsonPath.toFile();
@@ -78,22 +87,6 @@ public class ApiController {
         }
     }
 
-    @RequestMapping("/search")
-    @ResponseBody
-    public ResponseEntity<List<sw.etri.dto.SatelliteInfo>> search(@RequestBody ImageSearchInfo searchInfo) {
-
-        try {
-            List<sw.etri.dto.SatelliteInfo> results = fileSearchImage.search(searchInfo);
-
-            return new ResponseEntity(results, HttpStatus.OK);
-        } catch (Exception ex) {
-
-            log.error(ex.getMessage());
-            ResponseEntity<List<sw.etri.dto.SatelliteInfo>> infoResponseEntity = new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
-            return infoResponseEntity;
-        }
-
-    }
 }
 
 

@@ -7,7 +7,6 @@ import axios from 'axios';
 
 // main.js
 
-//import router from './routes'
 import OpenLayers from 'openlayers'
 import mitt from "mitt"
 

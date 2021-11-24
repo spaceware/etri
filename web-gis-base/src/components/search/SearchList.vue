@@ -173,14 +173,12 @@ export default {
           }
           if (!contained){
             this.layerList.push(this.dataList[i]);
-            // this.selectedList.push(this.layer_url);
             this.addLayerList(this.layer_url, this.dataList[i]);
           }
         } else{
           for(let j in this.layerList){
             if (this.layerList[j].satLayername == this.dataList[i].satLayername){
               this.layerList.splice(j,1);
-              // this.selectedList.splice(j, 1);
               this.removeLayerList(this.dataList[i]);
             }
           }
@@ -189,8 +187,6 @@ export default {
     },
     getLayerPath(data) {
       this.layer_url=data.satDate+'/'+data.satType+'/'+data.satLayername
-
-      // this.layer_url = 'http://192.168.1.77:8081/20190405/K3A/K3_20190405042527_36717_09411281_L1O'
     },
     addLayerList(url,data) {
       let Layer = new TileLayer({
@@ -252,16 +248,6 @@ export default {
 
 
       vm.showModal=true
-      // let url = ''
-      // let params = {};
-      // params.layer = layer;
-      // this.axios.post(url, params)
-      //     .then((res)=>{
-      //       // need Modal
-      //     })
-      //     .catch((err)=>{
-      //       console.log(err);
-      //     })
     }
   }
 
