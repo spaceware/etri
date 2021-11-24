@@ -37,7 +37,8 @@
         <h3> <b>Unit Type</b> : {{ modalInformation.unit_type}} </h3>
         <h3> <b>No Data Value</b> : {{modalInformation.no_data_value }} </h3>
         <h3> <b>Description</b> :  {{modalInformation.description}} </h3>
-        <h3> <b>Projection</b> : {{ modalInformation.projection}} </h3>
+        <h3> <b>Projection</b> : </h3>
+        <h3><span v-html="modalInformation.projection" style="white-space: pre-wrap"> </span></h3>
       </template>
     </modal>
     <Pagination
@@ -233,7 +234,6 @@ export default {
           date : data.satDate,
         },
       }).then((res)=>{
-        console.log(res.data)
         vm.modalInformation.file_name=res.data["file name"]
         vm.modalInformation.width=res.data.width
         vm.modalInformation.height=res.data.height
@@ -242,9 +242,9 @@ export default {
         vm.modalInformation.resolution=res.data.resolution
         vm.modalInformation.band_counts=res.data["band counts"]
         vm.modalInformation.unit_type=res.data["unit type"]
-        vm.modalInformation.no_data_value=res.data["no data value"]
+        vm.modalInformation.no_data_value=res.data["no data value"]==null?"null":res.data["no data value"]
         vm.modalInformation.description=res.data.description
-        vm.modalInformation.projection=res.data.projection
+        vm.modalInformation.projection=res.data.projection.split('\n').join('<br />')
       }).catch((err)=>{
         console.log(err)
       })

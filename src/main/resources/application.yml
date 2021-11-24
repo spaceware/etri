@@ -1,3 +1,6 @@
 data:
   tile:
     root: 'file:/Z:/DATA/MDA/tile'
+
+basemap:
+  key: 'CF1E6214-91ED-342A-BDB4-B54554CACF78'

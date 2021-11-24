@@ -24,8 +24,15 @@ import java.util.*;
 public class ApiController {
     @Value("${data.tile.root}")
     private Path dataRoot;
+    @Value("${basemap.key}")
+    private String key;
     @Autowired
     private SearchImage fileSearchImage;
+
+    @GetMapping("/getKey")
+    public ResponseEntity getKey(){
+        return new ResponseEntity(key, HttpStatus.OK);
+    }
 
     @GetMapping("/satelliteInfo")
     public ResponseEntity modal(ModalDto dto) throws URISyntaxException {

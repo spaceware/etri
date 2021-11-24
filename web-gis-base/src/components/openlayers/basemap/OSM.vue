@@ -21,8 +21,13 @@ export default {
   props: ['aerial', "topo", "osm"],
   mounted(){
     store = useStore()
-    let value = {ref: this.$refs["map-root"],aerial: this.aerial, topo: this.topo,osm: this.osm, vworldKey: this.vworldKey}
-    store.commit("setMapTarget", value)
+    let value = '';
+    this.axios.get("/api/getKey").then((res)=>{
+      value = {ref: this.$refs["map-root"], vworldKey: res.data}
+      store.commit("setMapTarget", value)
+    }).catch((err)=>{
+      console.log(err)
+    })
     state = store.state;
     state.map.addInteraction(state.measureLine)
     state.map.addInteraction(state.measurePoly)
@@ -30,10 +35,10 @@ export default {
 
     state.measureLine.on("drawstart", state.tooltip.setFeature.bind(state.tooltip))
     state.measureLine.on(["change:active", "drawend"],
-        state.tooltip.removeFeature.bind(state.tooltip));
+    state.tooltip.removeFeature.bind(state.tooltip));
     state.measurePoly.on("drawstart", store.state.tooltip.setFeature.bind(state.tooltip))
     state.measurePoly.on(["change:active", "drawend"],
-        state.tooltip.removeFeature.bind(state.tooltip));
+    state.tooltip.removeFeature.bind(state.tooltip));
 
     console.log(store.state.map)
 

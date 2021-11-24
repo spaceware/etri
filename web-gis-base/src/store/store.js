@@ -11,19 +11,19 @@ import View from "ol/View";
 
 const center = ol.proj.fromLonLat([127.5, 36]);
 const map = {
-    osmLayer(osm){
+    osmLayer(){
         let osmLayer = new TileLayer({
             title : 'OSM',
             source : new OSM(),
             zIndex:6,
-            visible: osm,
+            visible: false,
         });
         return osmLayer;
     },
-    vbaseLayer(topo, vworldKey){
+    vbaseLayer(vworldKey){
         let vworldBaseLayer = new TileLayer({
             title : 'VWorld Base Map',
-            visible : topo,
+            visible : false,
             type: 'base',
             zIndex:6,
             source : new XYZ({
@@ -38,10 +38,10 @@ const map = {
         });
         return vworldBaseLayer
     },
-    vsatelLayer(aerial, vworldKey){
+    vsatelLayer(vworldKey){
         let vworldSatelliteLayer = new TileLayer({
             title: "VWorld Satellite Map",
-            visible: aerial,
+            visible: true,
             type: "base",
             zIndex:6,
             source: new XYZ({
@@ -73,14 +73,14 @@ const map = {
     //         })
     //     })
     // },
-    createMap(target, aerial, topo, osm, vworldKey){
+    createMap(target, vworldKey){
         return new Map({
             target: target,
             layers:[
                 // this.dataLayer(aerial),
-                this.vbaseLayer(topo, vworldKey),
-                this.vsatelLayer(aerial, vworldKey),
-                this.osmLayer(osm),
+                this.vbaseLayer(vworldKey),
+                this.vsatelLayer( vworldKey),
+                this.osmLayer(),
             ],
             view: new View({
                 zoom: 7,
@@ -143,7 +143,7 @@ const store = createStore({
     },
     mutations: {
         setMapTarget(state, value) {
-            state.map = map.createMap(value.ref, value.aerial, value.topo, value.osm, value.vworldKey)
+            state.map = map.createMap(value.ref, value.vworldKey)
         },
 
     },
