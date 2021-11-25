@@ -9,7 +9,7 @@ import axios from 'axios';
 
 import OpenLayers from 'openlayers'
 import mitt from "mitt"
-
+axios.defaults.baseURL = "/eos_view"
 const emitter = mitt()
 const app = createApp(App)
 app.config.globalProperties.axios = axios;

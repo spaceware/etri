@@ -20,6 +20,7 @@ export default {
   mounted(){
     store = useStore()
     let value = '';
+    console.log(this.axios.defaults.baseURL)
     this.axios.get("/api/getKey").then((res)=>{
       value = {ref: this.$refs["map-root"], vworldKey: res.data}
       store.commit("setMapTarget", value)
