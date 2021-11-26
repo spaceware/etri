@@ -1,3 +1,10 @@
+server:
+  error:
+    include-exception: false
+    include-stacktrace: never
+
+  servlet:
+    context-path: /eos_view
 data:
   tile:
     root: 'file:/Z:/DATA/MDA/tile'

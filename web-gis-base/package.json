@@ -28,7 +28,6 @@
     "vue-slider-component": "^3.2.15",
     "vue-switches": "^2.0.1",
     "vue3-datepicker": "^0.2.5",
-    "vue3-openlayers": "^0.1.44",
     "vuex": "^4.0.2"
   },
   "devDependencies": {
@@ -62,5 +61,9 @@
     "> 1%",
     "last 2 versions",
     "not dead"
-  ]
+  ],
+  "description": "```\r npm install\r ```",
+  "main": "babel.config.js",
+  "author": "",
+  "license": "ISC"
 }

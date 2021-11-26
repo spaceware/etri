@@ -8,10 +8,7 @@ import sw.etri.dto.SatelliteInfo;
 import java.io.File;
 import java.nio.file.Path;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class FileSearchImage implements SearchImage {
@@ -30,12 +27,12 @@ public class FileSearchImage implements SearchImage {
             Arrays.stream(file.listFiles(f-> f.isDirectory())).filter(
                     f-> satFilterList.contains(f.getName())).forEach(x ->
             {
-                File[] tiffFiles = x.listFiles(xx -> xx.getName().endsWith(".zip"));
+                File[] tiffFiles = x.listFiles(xx -> xx.getName().toLowerCase().endsWith(".zip"));
                 for(File tfile : tiffFiles) {
 
                     SatelliteInfo satInfo = new SatelliteInfo();
                     satInfo.setSatDate(file.getName());
-                    satInfo.setSatLayername(tfile.getName().replace(".zip", ""));
+                    satInfo.setSatLayername(tfile.getName().replace(".zip", "").replace(".ZIP", ""));
                     satInfo.setSatType(tfile.getParentFile().getName());
 
                     results.add(satInfo);

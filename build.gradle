@@ -21,10 +21,10 @@ repositories {
 
 apply plugin: 'war'
 war {
-	baseName = 'etri'
+	baseName = 'eos_view'
 }
 bootWar {
-	archiveFileName = 'etri.war'
+	archiveFileName = 'eos_view.war'
 }
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
