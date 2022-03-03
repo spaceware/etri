@@ -1,6 +1,6 @@
 import { createStore } from "vuex";
-import ol from "openlayers";
 import Tooltip from "ol-ext/overlay/Tooltip";
+import * as olProj from "ol/proj";
 import Draw from "ol/interaction/Draw"
 import TileLayer from "ol/layer/Tile";
 import OSM from "ol/source/OSM";
@@ -8,7 +8,7 @@ import XYZ from "ol/source/XYZ";
 import Map from "ol/Map";
 import View from "ol/View";
 
-const center = ol.proj.fromLonLat([127.5, 36]);
+const center = olProj.fromLonLat([127.5, 36]);
 const map = {
     osmLayer(){
         let osmLayer = new TileLayer({

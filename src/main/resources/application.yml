@@ -4,10 +4,10 @@ server:
     include-stacktrace: never
 
   servlet:
-    context-path: /eos_view
+    context-path: /eos-view
 data:
   tile:
-    root: 'file:/Z:/DATA/MDA/tile'
+    root: 'file:/D:/Data/MDA/tile'
 
 basemap:
   key: 'CF1E6214-91ED-342A-BDB4-B54554CACF78'

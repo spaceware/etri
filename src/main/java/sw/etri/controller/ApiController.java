@@ -10,12 +10,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import sw.etri.dto.ImageSearchInfo;
 import sw.etri.dto.ModalDto;
+import sw.etri.dto.SatelliteInfo;
 import sw.etri.dto.SearchDto;
 import sw.etri.service.SearchImage;
 
 import java.io.File;
 import java.net.URISyntaxException;
 import java.nio.file.Path;
+import java.sql.Date;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -48,17 +50,17 @@ public class ApiController {
     public ResponseEntity search(SearchDto dto) throws URISyntaxException {
 
         ImageSearchInfo info = new ImageSearchInfo();
-        info.setSdate(java.sql.Date.valueOf(LocalDate.parse(dto.getStartDate())));
-        info.setEdate(java.sql.Date.valueOf(LocalDate.parse(dto.getEndDate())));
+        info.setSdate(Date.valueOf(LocalDate.parse(dto.getStartDate())));
+        info.setEdate(Date.valueOf(LocalDate.parse(dto.getEndDate())));
         info.setSatelliteList(dto.getSatellite());
         try {
-            List<sw.etri.dto.SatelliteInfo> results = fileSearchImage.search(info);
-
+            List<SatelliteInfo> results = fileSearchImage.search(info);
+            log.info(results.get(0).getSatLayername());
             return new ResponseEntity(results, HttpStatus.OK);
         } catch (Exception ex) {
 
             log.error(ex.getMessage());
-            ResponseEntity<List<sw.etri.dto.SatelliteInfo>> infoResponseEntity = new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+            ResponseEntity infoResponseEntity = ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(dataRoot.toString());
             return infoResponseEntity;
         }
     }

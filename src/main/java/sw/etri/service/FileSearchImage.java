@@ -1,5 +1,6 @@
 package sw.etri.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import sw.etri.dto.ImageSearchInfo;
@@ -11,6 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service
+@Slf4j
 public class FileSearchImage implements SearchImage {
 
     @Value("${data.tile.root}")
