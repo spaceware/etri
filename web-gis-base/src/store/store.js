@@ -74,30 +74,30 @@ const map = {
     },
 };
 
-const interaction = {
-    measureLine(){
-        let ml = new Draw({type: "LineString"});
-        ml.setActive(false);
-        return ml;
-    },
-    measurePoly(){
-        let mp = new Draw({type: "Polygon"});
-        mp.setActive(false);
-        return mp;
-    },
-    tooltip(){
-        let tooltip = new Tooltip();
-        return tooltip;
-    }
-}
+// const interaction = {
+//     measureLine(){
+//         let ml = new Draw({type: "LineString"});
+//         ml.setActive(false);
+//         return ml;
+//     },
+//     measurePoly(){
+//         let mp = new Draw({type: "Polygon"});
+//         mp.setActive(false);
+//         return mp;
+//     },
+//     tooltip(){
+//         let tooltip = new Tooltip();
+//         return tooltip;
+//     }
+// }
 
 const store = createStore({
     state: {
         center: center,
         map: map.createMap(),
-        measureLine : interaction.measureLine(),
-        measurePoly : interaction.measurePoly(),
-        tooltip : interaction.tooltip()
+        // measureLine : interaction.measureLine(),
+        // measurePoly : interaction.measurePoly(),
+        // tooltip : interaction.tooltip()
     },
     mutations: {
         setMapTarget(state, value) {

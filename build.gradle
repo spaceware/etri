@@ -16,6 +16,7 @@ configurations {
 }
 
 repositories {
+	maven { url "https://repo.osgeo.org/repository/release/"}
 	mavenCentral()
 }
 
@@ -40,6 +41,9 @@ dependencies {
 	implementation 'net.lingala.zip4j:zip4j:2.1.2'
 	implementation 'com.google.guava:guava:18.0'
 	implementation 'ar.com.hjg:pngj:2.1.0'
+	implementation 'org.geotools:gt-epsg-hsql:17.0'
+	implementation 'org.geotools:gt-image:17.0'
+
 
 	compileOnly 'org.projectlombok:lombok'
 //	developmentOnly 'org.springframework.boot:spring-boot-devtools'
